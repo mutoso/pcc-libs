@@ -1,0 +1,26 @@
+#	$Id: Makefile.in,v 1.9 2009/09/20 00:50:58 gmcgarry Exp $
+#
+# top-level Makefile
+#
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+libdir = @libdir@
+srcdir = @srcdir@
+
+TARGOS = @targos@
+TARGMACH = @targmach@
+TARGET = @target@
+VERSION = @version@
+PCCLIBDIR = $(libdir)/pcc/$(TARGET)/$(VERSION)/lib
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+
+MFLAGS += CC=$(CC) MACH=$(TARGMACH) PCCLIBDIR=$(PCCLIBDIR) VPATH=$(srcdir)/$(TARGOS) SRCDIR=$(srcdir)/$(TARGOS)/
+
+all clean install:
+	if test -f $(srcdir)/$(TARGOS)/Makefile ; then $(MAKE) -f $(srcdir)/$(TARGOS)/Makefile $(MFLAGS) $@ ; fi
+
+distclean: clean
+	/bin/rm -f Makefile
