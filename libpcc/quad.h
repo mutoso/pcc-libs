@@ -72,7 +72,7 @@ typedef long long		quad_t;
 typedef unsigned long long 	u_quad_t;
 #endif
 
-#ifdef __SunOS
+#if defined(__SunOS) || defined(__svr4__)
 typedef long long 		quad_t;
 typedef unsigned long long 	u_quad_t;
 #endif
@@ -91,7 +91,7 @@ union uu {
 /*
  * Define high and low parts of a quad_t.
  */
-#ifdef __BIG_ENDIAN__
+#ifdef TARGET_BIG_ENDIAN
 #define	H		0
 #define	L		1
 #else

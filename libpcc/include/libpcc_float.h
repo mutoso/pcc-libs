@@ -1,6 +1,25 @@
 #ifndef _LIBPCC_FLOAT_H_
 #define _LIBPCC_FLOAT_H_
 
+/*
+ * number of decimal digits needed to represent all the
+ * significant digits for all internal floating-point formats
+ */
+#define DECIMAL_DIG 21
+
+/*
+ * the floating-point expression evaluation method:
+ *	-1	indeterminate
+ *	0	evaluate to range and precision of type
+ *	1	evaluate to range and precision of double type
+ *	2	evaluate to range and precision of long double type
+ */
+#ifdef __FLT_EVAL_METHOD__
+#define FLT_EVAL_METHOD __FLT_EVAL_METHOD__
+#else
+#define FLT_EVAL_METHOD 0
+#endif
+
 #define FLT_RADIX 2
 
 /* IEEE float */

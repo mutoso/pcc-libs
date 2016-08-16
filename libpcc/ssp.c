@@ -1,4 +1,4 @@
-/*      $Id: ssp.c,v 1.8 2009/01/23 20:31:09 gmcgarry Exp $	*/
+/*      $Id: ssp.c,v 1.11 2011/05/17 00:19:19 gmcgarry Exp $	*/
 /*-
  * Copyright (c) 2008 Gregory McGarry <g.mcgarry@ieee.org>
  *
@@ -15,8 +15,19 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef __MSC__
+#include <io.h>
+#define open(f,m) _open(f,m)
+#define read(h,b,n) _read(h,b,n)
+#define write(h,b,n) _write(h,b,n)
+#define close(h) _close(h)
+#else
+#include <unistd.h>
+#endif
 
 #if defined(__lint__)
 #define __constructor /* define away */
@@ -37,6 +48,9 @@
 #else
 extern char *__progname;
 #endif
+
+void __ssp_init(void);
+void __stack_chk_fail(void);
 
 int __stack_chk_guard;
 

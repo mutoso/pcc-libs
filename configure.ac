@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([pcc-libs], [1.0.0.RELEASE], <pcc-list@ludd.ltu.se>)
+AC_INIT([pcc-libs], [1.1.0], [pcc@lists.ludd.ltu.se])
 
 AC_PROG_MAKE_SET
 AC_PROG_INSTALL
@@ -23,8 +23,9 @@ case "$target_os" in
 	case "$target_cpu" in
 	    i?86) targmach=i386 ;;
 	    powerpc) targmach=powerpc endian=big ;;
+	    x86_64) targmach=amd64 ;;
 	esac
-        ;;
+	;;
 
     dragonfly*)
 	targos=dragonfly
@@ -98,7 +99,7 @@ case "$target_os" in
 	esac
 	;;
 
-    sunos*|solaris*)
+    sysv4*|sunos*|solaris*)
 	targos=sunos
 	case "$target_cpu" in
 	    i?86) targmach=i386 ;;
@@ -113,7 +114,7 @@ case "$target_os" in
 	;;
 
     *)
-        targos="$target_os"
+	targos="$target_os"
 	case "$target_cpu" in
 	    m16c) targmach=m16c ;;
 	    nova) targmach=nova ;;
@@ -126,9 +127,9 @@ if test "X$targos" = X -o "X$targmach" = X; then
 fi
 
 if test "X$endian" = "Xbig"; then
-	AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])
+	AC_SUBST([ENDIAN_FLAG],[-DTARGET_BIG_ENDIAN=1])
 else
-	AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])
+	AC_SUBST([ENDIAN_FLAG],[-DTARGET_LITTLE_ENDIAN=1])
 fi
 
 AC_CHECK_TOOLS([CC], [pcc gcc cc])
@@ -145,8 +146,8 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(CFLAGS)
 
 AC_CONFIG_FILES([Makefile
-		csu/Makefile
-                libsoftfloat/Makefile
-		libpcc/Makefile
+	csu/Makefile
+	libsoftfloat/Makefile
+	libpcc/Makefile
 ])
 AC_OUTPUT
